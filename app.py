@@ -51,9 +51,7 @@ def main():
         return data
 
     @st.cache(persist=True)
-    def split(df):
-        y = df['Chance of Admit']
-        x = df.drop(columns=['Chance of Admit'])
+    def split(x,y,test_size):
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
         return x_train, x_test, y_train, y_test
 
@@ -101,13 +99,21 @@ def main():
             st.dataframe(data)
         
         st.sidebar.subheader("Data Engineering")
+        st.sidebar.markdown("Select columns for training")
         feature_selection = st.sidebar.multiselect("Select Features", data.columns)
         df = data[feature_selection]
-        st.dataframe(df)      
+        st.markdown("Selected columns for training")
+        st.dataframe(df)
+        label = st.sidebar.selectbox("Select Label", data.columns)
+        y = data[label]
+        st.markdown("Label Column")
+        st.dataframe(y)
 
+
+        st.sidebar.subheader("Data Visualization")
+        st.sidebar.markdown("Data Visualization will only work for features selected which are of numerical type.")
         if st.sidebar.checkbox("Data Plots", False):
             plot_list = st.sidebar.multiselect("Choose Plots", ('Correlation Matrix', 'Histogram', 'Pairplot'))
-            st.write(df)
             viz_data(plot_list,df)   
 
 
