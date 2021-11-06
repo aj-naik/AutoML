@@ -13,21 +13,27 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 import pickle
 import os
+from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def main():
-    st.title("AutoML Studio")
-    st.sidebar.title("AutoML Studio")
-    st.markdown("This webapp is designed to generate data insights, train and test ML model for any dataset")
-    st.sidebar.markdown("This webapp is designed to generate data insights, train and test ML model for any dataset")
-
-    st.sidebar.subheader("Select the type of problem")
-    problem_type = st.sidebar.selectbox("Problem Type", ["Classification", "Regression"])
 
     def save_uploadedfile(uploadedfile):
         with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
             f.write(uploadedfile.getbuffer())
         return 
+
+    st.title("AutoML Studio")
+    st.sidebar.title("AutoML Studio")
+    st.markdown("This webapp is designed to generate data insights, train and test ML model for any dataset")
+    st.sidebar.markdown("This webapp is designed to generate data insights, train and test ML model for any dataset")
+    
+    file_data = st.sidebar.file_uploader("Upload Data file", type=["csv", "txt", "xlsx", "xls", "json"])
+    save_uploadedfile(file_data)
+
+    st.sidebar.subheader("Select the type of problem")
+    problem_type = st.sidebar.selectbox("Problem Type", ["Classification", "Regression"])
     
     def load_data(file_data):
         if file_data is not None:
@@ -74,6 +80,18 @@ def main():
             fig = sns.pairplot(df)
             st.pyplot(fig)
 
+    def to_excel(df):
+        output = BytesIO()
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
+        df.to_excel(writer, index=False, sheet_name='Sheet1')
+        workbook = writer.book
+        worksheet = writer.sheets['Sheet1']
+        format1 = workbook.add_format({'num_format': '0.00'}) 
+        worksheet.set_column('A:A', None, format1)  
+        writer.save()
+        processed_data = output.getvalue()
+        return processed_data
+
     def plot_metrics(metrics_list):
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
@@ -91,23 +109,55 @@ def main():
             st.pyplot()
 
     if problem_type == "Classification":
-        file_data = st.sidebar.file_uploader("Upload Data file", type=["csv", "txt", "xlsx", "xls", "json"])
-        save_uploadedfile(file_data)
         # st.write(filepaths)
         data = load_data(file_data)
         if st.sidebar.checkbox("Display Dataset", False):
             st.dataframe(data)
         
-        st.sidebar.subheader("Data Engineering")
+        st.sidebar.subheader("Feature Engineering")
         st.sidebar.markdown("Select columns for training")
-        feature_selection = st.sidebar.multiselect("Select Features", data.columns)
+        feature_selection = st.sidebar.multiselect("Select Features", data.columns, key='1')
         df = data[feature_selection]
-        st.markdown("Selected columns for training")
-        st.dataframe(df)
         label = st.sidebar.selectbox("Select Label", data.columns)
         y = data[label]
-        st.markdown("Label Column")
-        st.dataframe(y)
+        if st.sidebar.checkbox("Show Selected Columns", False):
+            st.markdown("Selected columns for training")
+            st.write(df.describe())
+            st.dataframe(df)
+            st.markdown("Select Label Column")
+            st.dataframe(y)
+
+        st.sidebar.markdown("Create new Features")
+        st.sidebar.markdown("Only One operation can be stored as of now")
+        feature_creation1 = st.sidebar.selectbox("Select Feature 1", data.columns, key='2')
+        feature_creation2 = st.sidebar.selectbox("Select Feature 2", data.columns, key='3')
+        # st.write(data[feature_creation1] * data[feature_creation2])
+        op = st.sidebar.selectbox("Select Operation", ["+", "-", "*", "/", "log of feature 1","log of feature 2", "exp of feature 1", "exp of feature 2"])
+        feature_name = st.sidebar.text_input("Feature Name", "Enter Name")
+        if st.sidebar.button("Create"):
+            if op == "+":
+                data[feature_name] = data[feature_creation1] + data[feature_creation2]
+            elif op == "-":
+                data[feature_name] = data[feature_creation1] - data[feature_creation2]
+            elif op == "*":
+                df[feature_name] = data[feature_creation1] * data[feature_creation2]
+            elif op == "/":
+                data[feature_name] = data[feature_creation1] / data[feature_creation2]
+            elif op == "log of feature 1":
+                data[feature_name] = np.log(data[feature_creation1])
+            elif op == "log of feature 2":
+                data[feature_name] = np.log(data[feature_creation2]) 
+            elif op == "exp of feature 1":
+                data[feature_name] = np.exp(data[feature_creation1])
+            elif op == "exp of feature 2":
+                data[feature_name] = np.exp(data[feature_creation2])
+            st.dataframe(data)
+            df_xlsx = to_excel(data)
+            st.download_button(label='📥 Download Current Result',
+                                data=df_xlsx ,
+                                file_name= 'df_test.xlsx')
+        
+        
 
 
         st.sidebar.subheader("Data Visualization")
