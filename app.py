@@ -14,7 +14,7 @@ import xgboost as xgb
 import pickle
 import os
 from io import BytesIO
-from pyxlsb import open_workbook as open_xlsb
+# from pyxlsb import open_workbook as open_xlsb
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def main():
@@ -80,7 +80,7 @@ def main():
             fig = sns.pairplot(df)
             st.pyplot(fig)
 
-    def to_excel(df):
+    # def to_excel(df):
         output = BytesIO()
         writer = pd.ExcelWriter(output, engine='xlsxwriter')
         df.to_excel(writer, index=False, sheet_name='Sheet1')
