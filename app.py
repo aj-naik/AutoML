@@ -37,7 +37,7 @@ def main():
     
     def load_data(file_data):
         if file_data is not None:
-            
+
             filepaths = ["/temDir/{}".format(file_data.name)]    
                      
             for fp in filepaths:
@@ -93,6 +93,26 @@ def main():
         writer.save()
         processed_data = output.getvalue()
         return processed_data
+
+    def classify_select():
+            if classify == 'Logistic Regression':
+                load_weights = open('LR.pkl', 'rb') 
+                classifier = pickle.load(load_weights)
+            elif classify == 'Support Vector Machine (SVM)':
+                load_weights = open('SVM.pkl', 'rb')
+            elif classify == 'K-Nearest Neighbor':
+                load_weights = open('KNN.pkl', 'rb')  
+                classifier = pickle.load(load_weights)
+            elif classify == 'Decision Tree':
+                load_weights = open('DT.pkl', 'rb') 
+                classifier = pickle.load(load_weights)
+            elif classify == 'Random Forest':
+                load_weights = open('RF.pkl', 'rb') 
+                classifier = pickle.load(load_weights)
+            elif classify == 'XGBoost':
+                load_weights = open('XGB.pkl', 'rb') 
+                classifier = pickle.load(load_weights)
+            return classifier
 
     def plot_metrics(metrics_list):
         if 'Confusion Matrix' in metrics_list:
@@ -175,7 +195,10 @@ def main():
         st.sidebar.markdown("Data Visualization will only work for features selected which are of numerical type.")
         if st.sidebar.checkbox("Data Plots", False):
             plot_list = st.sidebar.multiselect("Choose Plots", ('Correlation Matrix', 'Histogram', 'Pairplot'))
-            viz_data(plot_list,df)   
+            viz_data(plot_list,df)  
+
+        st.sidebar.subheader("Modelling Data") 
+        st.sidebar.markdown("Select ML algorithm and train, test model on the dataset")
 
 
     
