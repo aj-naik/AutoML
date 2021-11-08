@@ -37,7 +37,9 @@ def main():
     
     def load_data(file_data):
         if file_data is not None:
-            filepaths = ["/temDir/{}".format(file_data.name)]             
+            
+            filepaths = ["/temDir/{}".format(file_data.name)]    
+                     
             for fp in filepaths:
                 # Split the extension from the path and normalise it to lowercase.
                 ext = os.path.splitext(fp)[-1].lower()
@@ -116,10 +118,12 @@ def main():
         
         st.sidebar.subheader("Feature Engineering")
         st.sidebar.markdown("Select columns for training")
+
         feature_selection = st.sidebar.multiselect("Select Features", data.columns, key='1')
         df = data[feature_selection]
         label = st.sidebar.selectbox("Select Label", data.columns)
         y = data[label]
+
         if st.sidebar.checkbox("Show Selected Columns", False):
             st.markdown("Selected columns for training")
             st.write(df.describe())
@@ -129,12 +133,16 @@ def main():
 
         st.sidebar.markdown("Create new Features")
         st.sidebar.markdown("Only One operation can be stored as of now")
+
         feature_creation1 = st.sidebar.selectbox("Select Feature 1", data.columns, key='2')
         feature_creation2 = st.sidebar.selectbox("Select Feature 2", data.columns, key='3')
         # st.write(data[feature_creation1] * data[feature_creation2])
+
         op = st.sidebar.selectbox("Select Operation", ["+", "-", "*", "/", "log of feature 1","log of feature 2", "exp of feature 1", "exp of feature 2"])
         feature_name = st.sidebar.text_input("Feature Name", "Enter Name")
-        if st.sidebar.button("Create"):
+        
+        if st.sidebar.button("Generate"):
+
             if op == "+":
                 data[feature_name] = data[feature_creation1] + data[feature_creation2]
             elif op == "-":
@@ -151,8 +159,11 @@ def main():
                 data[feature_name] = np.exp(data[feature_creation1])
             elif op == "exp of feature 2":
                 data[feature_name] = np.exp(data[feature_creation2])
+
             st.dataframe(data)
+
             df_xlsx = to_excel(data)
+
             st.download_button(label='📥 Download Current Result',
                                 data=df_xlsx ,
                                 file_name= 'df_test.xlsx')
