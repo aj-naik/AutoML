@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np 
 import pandas as pd 
+import base64
 from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
@@ -96,17 +97,15 @@ def main():
         x_train, x_test, y_train, y_test = train_test_split(df, y, test_size=test_size, random_state=0)
         return x_train, x_test, y_train, y_test
 
-    # def to_excel(df):
-        output = BytesIO()
-        writer = pd.ExcelWriter(output, engine='xlsxwriter')
-        df.to_excel(writer, index=False, sheet_name='Sheet1')
-        workbook = writer.book
-        worksheet = writer.sheets['Sheet1']
-        format1 = workbook.add_format({'num_format': '0.00'}) 
-        worksheet.set_column('A:A', None, format1)  
-        writer.save()
-        processed_data = output.getvalue()
-        return processed_data
+    def get_table_download_link(df):
+        """Generates a link allowing the data in a given panda dataframe to be downloaded
+        in:  dataframe
+        out: href string
+        """
+        csv = df.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+        href = f'<a href="data:file/csv;base64,{b64}">Download CSV file</a>'
+        return href
 
     def classify_select(): 
         if classify == 'Logistic Regression':
@@ -186,6 +185,7 @@ def main():
             st.dataframe(df)
             st.markdown("Select Label Column")
             st.dataframe(y)
+            st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
         st.sidebar.markdown("Create new Features")
         st.sidebar.markdown("Only One operation can be stored as of now")
@@ -218,11 +218,7 @@ def main():
 
             st.dataframe(data)
 
-            df_xlsx = to_excel(data)
-
-            st.download_button(label='📥 Download Current Result',
-                                data=df_xlsx ,
-                                file_name= 'df_test.xlsx')
+            st.markdown(get_table_download_link(data), unsafe_allow_html=True)
         
         
 
@@ -422,6 +418,7 @@ def main():
             st.dataframe(df)
             st.markdown("Select Label Column")
             st.dataframe(y)
+            st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
         st.sidebar.markdown("Create new Features")
         st.sidebar.markdown("Only One operation can be stored as of now")
@@ -454,11 +451,7 @@ def main():
 
             st.dataframe(data)
 
-            df_xlsx = to_excel(data)
-
-            st.download_button(label='📥 Download Current Result',
-                                data=df_xlsx ,
-                                file_name= 'df_test.xlsx')
+            st.markdown(get_table_download_link(data), unsafe_allow_html=True)
         
         
 
