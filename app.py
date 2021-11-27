@@ -161,6 +161,7 @@ def main():
         return classifier
 
     def plot_metrics(metrics_list):
+        '''Function to plot mertics for dataset'''
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
             plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
@@ -176,6 +177,8 @@ def main():
             plot_precision_recall_curve(model, x_test, y_test)
             st.pyplot()
 
+    '''Code for Classification problems'''
+    
     if problem_type == "Classification":
         # st.write(filepaths)
         data = load_data(file_data)
@@ -233,9 +236,6 @@ def main():
 
             st.markdown(get_table_download_link(data), unsafe_allow_html=True)
         
-        
-
-
         st.sidebar.subheader("Data Visualization")
         st.sidebar.markdown("Data Visualization will only work for features selected which are of numerical type.")
         if st.sidebar.checkbox("Data Plots", False):
@@ -415,6 +415,8 @@ def main():
                     weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
+       
+    '''Code for Regression Problems'''
                 
     elif problem_type == "Regression":
         # st.write(filepaths)
