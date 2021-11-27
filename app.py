@@ -475,8 +475,6 @@ def main():
             st.markdown(get_table_download_link(data), unsafe_allow_html=True)
         
         
-
-
         st.sidebar.subheader("Data Visualization")
         st.sidebar.markdown("Data Visualization will only work for features selected which are of numerical type.")
         if st.sidebar.checkbox("Data Plots", False):
@@ -628,7 +626,6 @@ def main():
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
     
-
 
 if __name__ == '__main__':
     main()
