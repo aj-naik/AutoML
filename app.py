@@ -105,10 +105,14 @@ def main():
         """
         csv = df.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-        href = f'<a href="data:file/csv;base64,{b64}">Download CSV file</a>'
+        href = f'<a href="data:file/csv;base64,{b64}">Download CSV file</a> (Right-click and save as &lt;some_name&gt;.csv or any other format)'
         return href
     
     def download_model(model):
+        """Generates a link allowing the data to be downloaded
+        in:  model
+        out: pkl file
+        """
         output_model = pickle.dumps(model)
         b64 = base64.b64encode(output_model).decode()
         href = f'<a href="data:file/output_model;base64,{b64}">Download Trained Model .pkl File</a> (right-click and save as &lt;some_name&gt;.pkl)'
