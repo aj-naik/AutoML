@@ -272,6 +272,9 @@ def main():
                 if st.button("Save Model"):
                     model = LogisticRegression(C=C, penalty='l2', max_iter=max_iter)
                     model.fit(x_train, y_train)
+                    weights =open("LR.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -296,7 +299,10 @@ def main():
 
                 if st.button("Save Model"):
                     model = SVC(C=C, kernel=kernel, gamma=gamma)
-                    model.fit(x_train, y_train)           
+                    model.fit(x_train, y_train)
+                    weights =open("SVM.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()                
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -320,7 +326,10 @@ def main():
 
                 if st.button("Save Model"):
                     model = KNeighborsClassifier(n_neighbors = int(neigh), algorithm=algo)
-                    model.fit(x_train, y_train)              
+                    model.fit(x_train, y_train)
+                    weights =open("KNN.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()                
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -345,6 +354,9 @@ def main():
                 if st.button("Save Model"):   
                     model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
                     model.fit(x_train, y_train)
+                    weights =open("RF.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -367,6 +379,9 @@ def main():
                 if st.button("Save Model"):
                     model = DecisionTreeClassifier(max_depth=max_depth)
                     model.fit(x_train, y_train)
+                    weights =open("DT.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -394,6 +409,9 @@ def main():
                     model = xgb.XGBRegressor(objective ='reg:logistic', colsample_bytree = 0.3, learning_rate = C,
                         max_depth = max_depth, n_estimators = n_estimators)
                     model.fit(x_train, y_train)
+                    weights =open("XGB.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
                 
@@ -486,6 +504,9 @@ def main():
                 if st.button("Save Model"):
                     model = LinearRegression()
                     model.fit(x_train, y_train)
+                    weights =open("LR.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -505,7 +526,10 @@ def main():
 
                 if st.button("Save Model"):
                     model = SVR(C=C, kernel=kernel, gamma=gamma)
-                    model.fit(x_train, y_train)             
+                    model.fit(x_train, y_train)
+                    weights =open("SVM.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()                
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -524,7 +548,10 @@ def main():
 
                 if st.button("Save Model"):
                     model = KNeighborsRegressor(n_neighbors = int(neigh), algorithm=algo)
-                    model.fit(x_train, y_train)              
+                    model.fit(x_train, y_train)
+                    weights =open("KNR.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()                
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -545,6 +572,9 @@ def main():
                 if st.button("Save Model"):   
                     model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
                     model.fit(x_train, y_train)
+                    weights =open("RF.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -563,6 +593,9 @@ def main():
                 if st.button("Save Model"):
                     model = DecisionTreeRegressor(max_depth=max_depth)
                     model.fit(x_train, y_train)
+                    weights =open("DT.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
@@ -585,6 +618,9 @@ def main():
                     model = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, learning_rate = C,
                         max_depth = max_depth, n_estimators = n_estimators)
                     model.fit(x_train, y_train)
+                    weights =open("XGB.pkl",mode = "wb")
+                    pickle.dump(model,weights)
+                    weights.close()
                     st.success('Your model has been saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
 
