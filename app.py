@@ -28,10 +28,11 @@ from io import BytesIO
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def main():
-
+    
     def save_uploadedfile(uploadedfile):
-        with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
-            f.write(uploadedfile.getbuffer())
+        if uploadedfile is not None:
+            with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
+                f.write(uploadedfile.getbuffer())
         return 
 
     st.title("AutoML Studio")
@@ -68,7 +69,7 @@ def main():
 
         return data
 
-    @st.cache(persist=True)
+    
     def split(x,y,test_size):
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
         return x_train, x_test, y_train, y_test
@@ -92,7 +93,7 @@ def main():
             fig = sns.pairplot(df)
             st.pyplot(fig)
             
-    @st.cache(persist=True)
+    
     def split(df, y, test_size):
         x_train, x_test, y_train, y_test = train_test_split(df, y, test_size=test_size, random_state=0)
         return x_train, x_test, y_train, y_test
@@ -105,6 +106,12 @@ def main():
         csv = df.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
         href = f'<a href="data:file/csv;base64,{b64}">Download CSV file</a>'
+        return href
+    
+    def download_model(model):
+        output_model = pickle.dumps(model)
+        b64 = base64.b64encode(output_model).decode()
+        href = f'<a href="data:file/output_model;base64,{b64}">Download Trained Model .pkl File</a> (right-click and save as &lt;some_name&gt;.pkl)'
         return href
 
     def classify_select(): 
@@ -167,6 +174,7 @@ def main():
     if problem_type == "Classification":
         # st.write(filepaths)
         data = load_data(file_data)
+        
         if st.sidebar.checkbox("Display Dataset", False):
             st.dataframe(data)
         
@@ -252,7 +260,7 @@ def main():
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
@@ -264,6 +272,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'Support Vector Machine (SVM)':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -279,7 +288,7 @@ def main():
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
@@ -291,6 +300,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()                
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'K-Nearest Neighbor':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -305,7 +315,7 @@ def main():
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2)*100)
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
@@ -317,6 +327,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()                
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'Random Forest':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -331,7 +342,7 @@ def main():
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
@@ -343,6 +354,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'Decision Tree':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -355,7 +367,7 @@ def main():
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)              
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
@@ -367,6 +379,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'XGBoost':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -383,7 +396,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.success('Your model saved sucessfully')                
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
@@ -396,6 +409,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
                 
     elif problem_type == "Regression":
         # st.write(filepaths)
@@ -481,8 +495,7 @@ def main():
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write('Model Accuracy is {} percent'.format(accuracy.round(3)*100))
-                    # st.write('Model Pred is {} percent'.format(y_pred.round(3)*100))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
                 
                 if st.button("Save Model"):
                     model = LinearRegression()
@@ -491,6 +504,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'Support Vector Regressor (SVR)':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -498,13 +512,13 @@ def main():
                 kernel = st.sidebar.radio("Kernel", ('linear', 'poly', 'rbf', 'sigmoid'), key='kernel')
                 gamma = st.sidebar.radio("Gamma (Kernel Coefficient)", ("scale", "auto"), key='gamma')
                 
-                if st.sidebar.button("Classify", key='classify'):
+                if st.sidebar.button("Train", key='classify'):
                     st.subheader("Support Vector Regressor (SVR) Results")
                     model = SVR(C=C, kernel=kernel, gamma=gamma)
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
 
                 if st.button("Save Model"):
                     model = SVR(C=C, kernel=kernel, gamma=gamma)
@@ -513,19 +527,20 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()                
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'K-Nearest Regressor':
                 st.sidebar.subheader("Model Hyperparameters")
                 neigh = st.sidebar.number_input("No. of Neighbours")
                 algo = st.sidebar.radio("Algorithm", ('auto', 'ball_tree', 'kd_tree', 'brute'), key='algo')
             
-                if st.sidebar.button("Predict", key='classify'):
+                if st.sidebar.button("Train", key='classify'):
                     st.subheader("K-Nearest Regressor Results")
                     model = KNeighborsRegressor(n_neighbors = int(neigh), algorithm=algo)
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2)*100)
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
 
                 if st.button("Save Model"):
                     model = KNeighborsRegressor(n_neighbors = int(neigh), algorithm=algo)
@@ -534,6 +549,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()                
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'Random Forest':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -541,13 +557,13 @@ def main():
                 max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 20, step=1, key='n_estimators')
                 bootstrap = st.sidebar.radio("Bootstrap samples when building trees", ('True', 'False'), key='bootstrap')
 
-                if st.sidebar.button("Classify", key='classify'):
+                if st.sidebar.button("Train", key='classify'):
                     st.subheader("Random Forest Results")
                     model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
 
                 if st.button("Save Model"):   
                     model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
@@ -556,18 +572,19 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'Decision Tree':
                 st.sidebar.subheader("Model Hyperparameters")
                 max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 30, step=1, key='n_estimators')
 
-                if st.sidebar.button("Classify", key='classify'):
+                if st.sidebar.button("Train", key='classify'):
                     st.subheader("Decision Tree Results")
                     model = DecisionTreeRegressor(max_depth=max_depth)
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)              
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
 
                 if st.button("Save Model"):
                     model = DecisionTreeRegressor(max_depth=max_depth)
@@ -576,6 +593,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
             if classifier == 'XGBoost':
                 st.sidebar.subheader("Model Hyperparameters")
@@ -583,14 +601,14 @@ def main():
                 max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 30, step=1, key='max_depth')
                 C = st.sidebar.number_input("C (Learning Rate parameter)", 0.01, 10.0, step=0.01, key='C_LR')
 
-                if st.sidebar.button("Classify", key='classify'):
+                if st.sidebar.button("Train", key='classify'):
                     st.subheader("XGBoost Results")
                     model = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, learning_rate = C,
                         max_depth = max_depth, n_estimators = n_estimators)
                     model.fit(x_train, y_train)
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)             
-                    st.write("Accuracy: ", accuracy.round(2))
+                    st.write('Model Accuracy is ',accuracy.round(3)*100)
 
                 if st.button("Save Model"):
                     model = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, learning_rate = C,
@@ -600,6 +618,7 @@ def main():
                     pickle.dump(model,weights)
                     weights.close()
                     st.success('Your model has been saved sucessfully')
+                    st.markdown(download_model(model), unsafe_allow_html=True)
 
     
 
