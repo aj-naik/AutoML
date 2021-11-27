@@ -30,6 +30,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 def main():
     
     def save_uploadedfile(uploadedfile):
+        "Helper function to put uploaded file into temp directory"
         if uploadedfile is not None:
             with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
                 f.write(uploadedfile.getbuffer())
@@ -37,8 +38,8 @@ def main():
 
     st.title("AutoML Studio")
     st.sidebar.title("AutoML Studio")
-    st.markdown("This webapp is designed to generate data insights, train and test ML model for any dataset")
-    st.sidebar.markdown("This webapp is designed to generate data insights, train and test ML model for any dataset")
+    st.markdown("This webapp is designed to generate data insights, train and test ML model for many dataset")
+    st.sidebar.markdown("This webapp is designed to generate data insights, train and test ML model for many dataset")
     
     file_data = st.sidebar.file_uploader("Upload Data file", type=["csv", "txt", "xlsx", "xls", "json"])
     save_uploadedfile(file_data)
@@ -47,6 +48,7 @@ def main():
     problem_type = st.sidebar.selectbox("Problem Type", ["Classification", "Regression"])
     
     def load_data(file_data):
+        "Function to load dataset onto the app"
         if file_data is not None:
 
             filepaths = ["/temDir/{}".format(file_data.name)]    
@@ -69,12 +71,8 @@ def main():
 
         return data
 
-    
-    def split(x,y,test_size):
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
-        return x_train, x_test, y_train, y_test
-
     def viz_data(plot_list,df):
+        "Function to display plots for dataset"
         if 'Correlation Matrix' in plot_list:
             st.subheader("Correlation Matrix")
             corr_matrix = df.corr()
@@ -95,6 +93,7 @@ def main():
             
     
     def split(df, y, test_size):
+        "Function to split datset into train test"
         x_train, x_test, y_train, y_test = train_test_split(df, y, test_size=test_size, random_state=0)
         return x_train, x_test, y_train, y_test
 
@@ -119,6 +118,7 @@ def main():
         return href
 
     def classify_select(): 
+        "Function to load trained classification models for testing"
         if classify == 'Logistic Regression':
             load_weights = open('LR.pkl', 'rb') 
             classifier = pickle.load(load_weights)
@@ -139,6 +139,7 @@ def main():
         return classifier
         
     def predictor_select():
+        "Function to load trained regression models for testing"
         if classify == 'Linear Regression':
             load_weights = open('LR.pkl', 'rb') 
             classifier = pickle.load(load_weights)
