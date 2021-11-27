@@ -30,7 +30,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 def main():
     
     def save_uploadedfile(uploadedfile):
-        "Helper function to put uploaded file into temp directory"
+        '''Helper function to put uploaded file into temp directory'''
         if uploadedfile is not None:
             with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
                 f.write(uploadedfile.getbuffer())
@@ -48,7 +48,7 @@ def main():
     problem_type = st.sidebar.selectbox("Problem Type", ["Classification", "Regression"])
     
     def load_data(file_data):
-        "Function to load dataset onto the app"
+        '''Function to load dataset onto the app'''
         if file_data is not None:
 
             filepaths = ["/temDir/{}".format(file_data.name)]    
@@ -72,7 +72,7 @@ def main():
         return data
 
     def viz_data(plot_list,df):
-        "Function to display plots for dataset"
+        '''Function to display plots for dataset'''
         if 'Correlation Matrix' in plot_list:
             st.subheader("Correlation Matrix")
             corr_matrix = df.corr()
@@ -93,7 +93,7 @@ def main():
             
     
     def split(df, y, test_size):
-        "Function to split datset into train test"
+        '''Function to split datset into train test'''
         x_train, x_test, y_train, y_test = train_test_split(df, y, test_size=test_size, random_state=0)
         return x_train, x_test, y_train, y_test
 
@@ -118,7 +118,7 @@ def main():
         return href
 
     def classify_select(): 
-        "Function to load trained classification models for testing"
+        '''Function to load trained classification models for testing'''
         if classify == 'Logistic Regression':
             load_weights = open('LR.pkl', 'rb') 
             classifier = pickle.load(load_weights)
@@ -139,7 +139,7 @@ def main():
         return classifier
         
     def predictor_select():
-        "Function to load trained regression models for testing"
+        '''Function to load trained regression models for testing'''
         if classify == 'Linear Regression':
             load_weights = open('LR.pkl', 'rb') 
             classifier = pickle.load(load_weights)
@@ -177,7 +177,7 @@ def main():
             plot_precision_recall_curve(model, x_test, y_test)
             st.pyplot()
 
-    '''Code for Classification problems'''
+    '''Code block for Classification and Regression problems'''
     
     if problem_type == "Classification":
         # st.write(filepaths)
@@ -416,7 +416,7 @@ def main():
                     st.success('Your model saved sucessfully')
                     st.markdown(download_model(model), unsafe_allow_html=True)
        
-    '''Code for Regression Problems'''
+    
                 
     elif problem_type == "Regression":
         # st.write(filepaths)
