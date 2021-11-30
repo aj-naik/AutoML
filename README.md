@@ -9,4 +9,5 @@ An AutoML webapp designed to create ML models without any code.
 
 # To do:
 - Add Neural Network model generation feature
+- Add Feature to test trained model 
 
