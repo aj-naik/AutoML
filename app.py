@@ -502,6 +502,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
+                    st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
                 
                 if st.button("Save Model"):
                     model = LinearRegression()
@@ -525,6 +526,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
+                    st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = SVR(C=C, kernel=kernel, gamma=gamma)
@@ -547,6 +549,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
+                    st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = KNeighborsRegressor(n_neighbors = int(neigh), algorithm=algo)
@@ -570,6 +573,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
+                    st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):   
                     model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
@@ -591,6 +595,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)              
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
+                    st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = DecisionTreeRegressor(max_depth=max_depth)
@@ -615,6 +620,7 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)             
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
+                    st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, learning_rate = C,
