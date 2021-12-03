@@ -41,7 +41,9 @@ def main():
     st.sidebar.markdown("This webapp is designed to generate data insights, train and test ML model for many dataset")
     
     file_data = st.sidebar.file_uploader("Upload Data file", type=["csv", "txt", "xlsx", "xls", "json"])
-    save_uploadedfile(file_data)
+    if file_data is not None:
+        file_details = {"FileName":file_data.name,"FileType":file_data.type}
+        save_uploadedfile(file_data)
 
     st.sidebar.subheader("Select the type of problem")
     problem_type = st.sidebar.selectbox("Problem Type", ["Classification", "Regression"])
@@ -56,22 +58,22 @@ def main():
                 # Split the extension from the path and normalise it to lowercase.
                 ext = os.path.splitext(fp)[-1].lower()
             if ext == ".json":
-                data = pd.read_json(file_data)
+                datafile = pd.read_json(file_data)
             elif ext == ".txt":
-                data = pd.read_csv(file_data)
+                datafile = pd.read_csv(file_data)
             elif ext == ".xlsx":
-                data = pd.read_excel(file_data)
+                datafile = pd.read_excel(file_data)
             elif ext == ".xls":
-                data = pd.read_excel(file_data)
+                datafile = pd.read_excel(file_data)
             elif ext == ".csv":
-                data = pd.read_csv(file_data)
+                datafile = pd.read_csv(file_data)
             else:
                 st.error("Please upload a valid file")
 
-        return data
+        return datafile
 
     def viz_data(plot_list,df):
-        '''Function to display plots for dataset'''
+        # '''Function to display plots for dataset'''
         if 'Correlation Matrix' in plot_list:
             st.subheader("Correlation Matrix")
             corr_matrix = df.corr()
@@ -92,7 +94,7 @@ def main():
             
     
     def split(df, y, test_size):
-        '''Function to split datset into train test'''
+        # '''Function to split datset into train test'''
         x_train, x_test, y_train, y_test = train_test_split(df, y, test_size=test_size, random_state=0)
         return x_train, x_test, y_train, y_test
 
@@ -117,7 +119,7 @@ def main():
         return href
 
     def classify_select(): 
-        '''Function to load trained classification models for testing'''
+        # '''Function to load trained classification models for testing'''
         if classify == 'Logistic Regression':
             load_weights = open('LR.pkl', 'rb') 
             classifier = pickle.load(load_weights)
@@ -138,7 +140,7 @@ def main():
         return classifier
         
     def predictor_select():
-        '''Function to load trained regression models for testing'''
+        # '''Function to load trained regression models for testing'''
         if classify == 'Linear Regression':
             load_weights = open('LR.pkl', 'rb') 
             classifier = pickle.load(load_weights)
@@ -160,7 +162,7 @@ def main():
         return classifier
 
     def plot_metrics(metrics_list):
-        '''Function to plot mertics for dataset'''
+        # '''Function to plot mertics for dataset'''
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
             plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
@@ -176,7 +178,7 @@ def main():
             plot_precision_recall_curve(model, x_test, y_test)
             st.pyplot()
 
-    '''Code block for Classification and Regression problems'''
+    # '''Code block for Classification and Regression problems'''
     
     if problem_type == "Classification":
         # st.write(filepaths)
