@@ -9,6 +9,6 @@ An AutoML webapp designed to create ML models without any code.
 
 # To do:
 - Add Neural Network model generation feature
-- Add trained model testing feature
+- Add a feature to test trained model
 - Build proper webapp using Flask or React
 
