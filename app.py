@@ -272,6 +272,7 @@ def main():
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
                 
                 if st.button("Save Model"):
@@ -300,6 +301,7 @@ def main():
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -327,6 +329,7 @@ def main():
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -354,6 +357,7 @@ def main():
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):   
@@ -379,6 +383,7 @@ def main():
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -408,6 +413,7 @@ def main():
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
