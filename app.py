@@ -168,7 +168,7 @@ def main():
         # '''Function to plot mertics for dataset'''
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
-            plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
+            plot_confusion_matrix(model, x_test, y_test, display_labels=data.columnss)
             st.pyplot()
 
         if 'ROC Curve' in metrics_list:
@@ -186,6 +186,7 @@ def main():
     if problem_type == "Classification":
         # st.write(filepaths)
         data = load_data(file_data)
+        class_labels = data.columns
         
         if st.sidebar.checkbox("Display Dataset", False):
             st.dataframe(data)
@@ -270,10 +271,10 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
-                    st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=class_names).round(2))
+                    st.write("Precision: ", precision_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
                     plot_metrics(metrics)
                 
                 if st.button("Save Model"):
@@ -300,10 +301,10 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
-                    st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=class_names).round(2))
+                    st.write("Precision: ", precision_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -329,10 +330,10 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
-                    st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=class_names).round(2))
+                    st.write("Precision: ", precision_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -358,10 +359,10 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
-                    st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=class_names).round(2))
+                    st.write("Precision: ", precision_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):   
@@ -385,10 +386,10 @@ def main():
                     accuracy = model.score(x_test, y_test)
                     y_pred = model.predict(x_test)              
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
-                    st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=class_names).round(2))
+                    st.write("Precision: ", precision_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -416,10 +417,10 @@ def main():
                     y_pred = model.predict(x_test)
                     st.success('Your model saved sucessfully')                
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
-                    st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=class_names).round(2))
-                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=class_names).round(2))
+                    st.write("Precision: ", precision_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
