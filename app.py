@@ -18,6 +18,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import plot_confusion_matrix, plot_roc_curve, plot_precision_recall_curve
 from sklearn.metrics import precision_score, recall_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import r2_score
+from sklearn.metrics import mean_absolute_error
 import seaborn as sns
 import matplotlib.pyplot as plt
 import xgboost as xgb
@@ -502,6 +506,8 @@ def main():
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
+                    st.write("Root Mean Squared Error: ", mean_squared_error(y_test, y_pred, squared=False).round(2))
+                    st.write("R2 score: ", r2_score(y_test, y_pred).round(2))
                 
                 if st.button("Save Model"):
                     model = LinearRegression()
@@ -526,6 +532,8 @@ def main():
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
+                    st.write("Root Mean Squared Error: ", mean_squared_error(y_test, y_pred, squared=False).round(2))
+                    st.write("R2 score: ", r2_score(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = SVR(C=C, kernel=kernel, gamma=gamma)
@@ -549,6 +557,8 @@ def main():
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
+                    st.write("Root Mean Squared Error: ", mean_squared_error(y_test, y_pred, squared=False).round(2))
+                    st.write("R2 score: ", r2_score(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = KNeighborsRegressor(n_neighbors = int(neigh), algorithm=algo)
@@ -573,6 +583,8 @@ def main():
                     y_pred = model.predict(x_test)
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
+                    st.write("Root Mean Squared Error: ", mean_squared_error(y_test, y_pred, squared=False).round(2))
+                    st.write("R2 score: ", r2_score(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):   
                     model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
@@ -595,6 +607,8 @@ def main():
                     y_pred = model.predict(x_test)              
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
+                    st.write("Root Mean Squared Error: ", mean_squared_error(y_test, y_pred, squared=False).round(2))
+                    st.write("R2 score: ", r2_score(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = DecisionTreeRegressor(max_depth=max_depth)
@@ -620,6 +634,8 @@ def main():
                     y_pred = model.predict(x_test)             
                     st.write('Model Accuracy is ',accuracy.round(3)*100)
                     st.write("Mean Squared Error: ", mean_squared_error(y_test, y_pred).round(2))
+                    st.write("Root Mean Squared Error: ", mean_squared_error(y_test, y_pred, squared=False).round(2))
+                    st.write("R2 score: ", r2_score(y_test, y_pred).round(2))
 
                 if st.button("Save Model"):
                     model = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, learning_rate = C,
