@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 import pickle
 import os
-from io import BytesIO
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def main():
