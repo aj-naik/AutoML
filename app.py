@@ -275,6 +275,7 @@ def main():
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Accuracy Score: ", accuracy_score(y_test, y_pred).round(2))
                     plot_metrics(metrics)
                 
                 if st.button("Save Model"):
@@ -305,6 +306,7 @@ def main():
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Accuracy Score: ", accuracy_score(y_test, y_pred).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -334,6 +336,7 @@ def main():
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Accuracy Score: ", accuracy_score(y_test, y_pred).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -363,6 +366,7 @@ def main():
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Accuracy Score: ", accuracy_score(y_test, y_pred).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):   
@@ -390,6 +394,7 @@ def main():
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Accuracy Score: ", accuracy_score(y_test, y_pred).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
@@ -421,6 +426,7 @@ def main():
                     st.write("Recall: ", recall_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("F1 Score: ", f1_score(y_test, y_pred, labels=data.columns).round(2))
                     st.write("Classification Report: ", classification_report(y_test, y_pred, labels=data.columns).round(2))
+                    st.write("Accuracy Score: ", accuracy_score(y_test, y_pred).round(2))
                     plot_metrics(metrics)
 
                 if st.button("Save Model"):
