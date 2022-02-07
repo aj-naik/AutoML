@@ -1,5 +1,5 @@
 # AutoML
-An AutoML webapp designed to create ML models without any code.
+An AutoML webapp designed to create ML models without any code. Inspired from AzureML service
 
 # Supported file formats:
 - CSV
